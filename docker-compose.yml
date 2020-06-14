@@ -1,0 +1,13 @@
+version: "2.3"
+services:
+  freeton-validator:
+    image: freeton-validator
+    build: .
+    volumes:
+      - ./certs:/usr/src/app/certs:ro
+    ports:
+      - "3000:3000"
+    extra_hosts:
+      - "freeton-validator-dev:62.149.17.145"
+    environment:
+      DEBUG: api,playground
