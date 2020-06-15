@@ -11,7 +11,7 @@ const datastore = new Datastore(freetonDB);
 
 router.get('/', async (req, res, next) => {
     try {
-        const validator = await Validator.create([apiServer]);
+        const validator = await Validator.create(apiServer);
         const id = await validator.run(
             await datastore.stakeSize(), await datastore.electionId(), await datastore.skipElections());
 
@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/config', async (req, res, next) => {
     try {
-        const validator = await Validator.create([apiServer]);
+        const validator = await Validator.create(apiServer);
         const result = await validator.getConfig(req.query.id);
 
         res.json(result);
@@ -42,7 +42,7 @@ router.get('/config', async (req, res, next) => {
 
 router.get('/activeElectionId', async (req, res, next) => {
     try {
-        const validator = await Validator.create([apiServer]);
+        const validator = await Validator.create(apiServer);
         const electorAddr = await validator.getElectorAddr();
         const result = await validator.getActiveElectionId(electorAddr);
 

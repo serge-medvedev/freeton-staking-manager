@@ -86,8 +86,8 @@ class Validator {
         this.client = client;
     }
 
-    static async create(servers) {
-        const client = await TONClient.create({ servers });
+    static async create(apiServer) {
+        const client = await TONClient.create({ servers: [apiServer] });
 
         return new Validator(client);
     }
