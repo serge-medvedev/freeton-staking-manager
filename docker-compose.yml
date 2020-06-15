@@ -5,9 +5,10 @@ services:
     build: .
     volumes:
       - ./certs:/usr/src/app/certs:ro
+      - ./data:/data
     ports:
       - "3000:3000"
     extra_hosts:
       - "freeton-validator-dev:62.149.17.145"
     environment:
-      DEBUG: api,playground
+      DEBUG: api,validator
