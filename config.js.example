@@ -1,0 +1,21 @@
+module.exports = {
+    apiServer: 'https://net.ton.dev',
+    msig: {
+        addr: {
+            wc: -1,
+            id: "dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92"
+        },
+        keys: {
+            public: "c89b32a11ec837298731ebbd2176f0cf96dab52f978d6cbe198fafeafaaa0fc5",
+            secret: "4a579ee59f540e325e2d0dad600f412c04cf80fae2ae25294a32e7412385787c"
+        },
+        setcode: false
+    },
+    stake: 10001,
+    skipElections: false,
+    validatorEngine: {
+        host: "1.2.3.4",
+        port: 3030
+    },
+    freetonDB: '/data/freeton.db'
+}

@@ -1,6 +1,8 @@
 .dockerignore
 Dockerfile
 docker-compose.yml
+config.js
+config.js.example
 
 certs/
 data/
