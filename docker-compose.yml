@@ -4,11 +4,11 @@ services:
     image: freeton-validator
     build: .
     volumes:
+      - ./config.js:/usr/src/app/config.js:ro
       - ./certs:/usr/src/app/certs:ro
       - ./data:/data
     ports:
       - "3000:3000"
-    extra_hosts:
-      - "freeton-validator-dev:62.149.17.145"
     environment:
       DEBUG: api,validator
+    restart: always
