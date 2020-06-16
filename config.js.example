@@ -17,5 +17,8 @@ module.exports = {
         host: "1.2.3.4",
         port: 3030
     },
-    freetonDB: '/data/freeton.db'
+    dbFiles: {
+        config: '/data/freeton-staking-manager/config.db',
+        elections: '/data/freeton-staking-manager/elections.db'
+    }
 }

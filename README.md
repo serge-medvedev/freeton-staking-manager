@@ -10,13 +10,13 @@
     ```yaml
     version: "2.3"
     services:
-      freeton-validator:
-        image: freeton-validator
+      freeton-staking-manager:
+        image: freeton-staking-manager
         build: .
         volumes:
           - ./config.js:/usr/src/app/config.js:ro
           - ./certs:/usr/src/app/certs:ro
-          - ./db:/data/freeton-validator
+          - ./db:/data/freeton-staking-manager
         ports:
           - "3000:3000"
         environment:
