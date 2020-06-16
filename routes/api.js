@@ -25,7 +25,7 @@ router.get('/runOnce', async (req, res, next) => {
     }
 });
 
-router.get('/nextStakeSize', async (req, res, next) => {
+router.get('/nextStake', async (req, res, next) => {
     try {
         const result = await validator.getNextStakeSize();
 
@@ -38,7 +38,7 @@ router.get('/nextStakeSize', async (req, res, next) => {
     }
 });
 
-router.post('/nextStakeSize', async (req, res, next) => {
+router.post('/nextStake', async (req, res, next) => {
     try {
         await validator.setNextStakeSize(_.toInteger(req.query.value));
 
