@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const debug = require('debug')('api');
 const express = require('express');
-const Validator = require('../validator');
+const Validator = require('../lib/validator');
 
 const router = express.Router();
 let validator;
