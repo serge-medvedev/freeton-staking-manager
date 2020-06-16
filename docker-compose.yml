@@ -6,7 +6,7 @@ services:
     volumes:
       - ./config.js:/usr/src/app/config.js:ro
       - ./certs:/usr/src/app/certs:ro
-      - ./data:/data
+      - ./db:/data/freeton-validator
     ports:
       - "3000:3000"
     environment:

@@ -4,9 +4,10 @@ const _ = require('lodash');
 const fs = require('fs').promises;
 const debug = require('debug')('validator');
 const { TONClient } = require('ton-client-node-js');
+const Datastore = require('./datastore');
 const { execFift, execValidatorEngineConsole } = require('./ton-tools');
 const configParamSubfields = require('./ton-config-param-subfields');
-const { msig } = require('./config');
+const { msig, apiServer, dbFiles } = require('./config');
 
 function getWalletAddr() {
     return `${msig.addr.wc}:${msig.addr.id}`;
@@ -82,14 +83,16 @@ async function genValidatorElectSigned(walletAddr, electionStart, maxFactor, ele
 }
 
 class Validator {
-    constructor(client) {
+    constructor(client, datastore) {
         this.client = client;
+        this.datastore = datastore;
     }
 
-    static async create(apiServer) {
+    static async create() {
         const client = await TONClient.create({ servers: [apiServer] });
+        const datastore = new Datastore(dbFiles.config, dbFiles.elections);
 
-        return new Validator(client);
+        return new Validator(client, datastore);
     }
 
     async getConfig(id) {
@@ -142,7 +145,13 @@ class Validator {
         return `-1:${await this.getConfig(1)}`;
     }
 
-    async getActiveElectionId(electorAddr) {
+    async getActiveElectionId() {
+        const electorAddr = await this.getElectorAddr();
+
+        return this.getActiveElectionIdImpl(electorAddr);
+    }
+
+    async getActiveElectionIdImpl(electorAddr) {
         const result = await this.client.contracts.runGet({
             address: electorAddr,
             functionName: 'active_election_id'
@@ -190,26 +199,44 @@ class Validator {
         }
     }
 
-    async run(stake, electionId, skipElections = false, maxFactor = 3, sendAttempts = 10) {
+    skipNextElections(skip) {
+        return this.datastore.skipNextElections(skip);
+    }
+
+    checkIfToSkip() {
+        return this.datastore.skipNextElections();
+    }
+
+    async checkIfAlreadySubmitted(id) {
+        const info = await this.datastore.getElectionsInfo(id);
+
+        return ! _.isNil(_.get(info, 'stake'));
+    }
+
+    setNextStakeSize(value) {
+        return this.datastore.nextStakeSize(value);
+    }
+
+    getNextStakeSize() {
+        return this.datastore.nextStakeSize();
+    }
+
+    async runOnce(maxFactor = 3, sendAttempts = 10) {
         debug('INFO: BEGIN');
 
-        let result = 0;
-
         try {
-            result = await this.runImpl(stake, electionId, skipElections, maxFactor, sendAttempts);
+            await this.runOnceImpl(maxFactor, sendAttempts);
         }
         catch (err) {
             debug('ERROR:', err.message);
         }
 
         debug('INFO: END');
-
-        return result;
     }
 
-    async runImpl(stake, electionId, skipElections, maxFactor, sendAttempts) {
+    async runOnceImpl(maxFactor, sendAttempts) {
         const electorAddr = await this.getElectorAddr();
-        const activeElectionId = await this.getActiveElectionId(electorAddr);
+        const activeElectionId = await this.getActiveElectionIdImpl(electorAddr);
 
         if (activeElectionId === 0) {
             debug('INFO: No current elections');
@@ -243,23 +270,24 @@ class Validator {
             }
         }
         else {
-            if (skipElections) {
-                debug(`INFO: Elections ${electionId}, skipped`);
+            if (await this.checkIfToSkip()) {
+                debug(`INFO: Elections ${activeElectionId}, skipped`);
 
-                return activeElectionId;
+                return;
             }
 
-            if (electionId === activeElectionId) {
-                debug(`INFO: Elections ${electionId}, already submitted`);
+            if (await this.checkIfAlreadySubmitted(activeElectionId)) {
+                debug(`INFO: Elections ${activeElectionId}, already submitted`);
 
-                return activeElectionId;
+                return;
             }
 
             debug(`INFO: Elections ${activeElectionId}`);
 
-            stake *= 1000000000;
+            const stake = await this.getNextStakeSize();
+            const nanostake = stake * 1000000000;
 
-            await this.ensureStakeIsOfAppropriateSize(stake);
+            await this.ensureStakeIsOfAppropriateSize(nanostake);
 
             const electionKey = await getNewKey();
             const electionADNLKey = await getNewKey();
@@ -279,24 +307,23 @@ class Validator {
             debug('INFO: walletAddr:', walletAddr);
 
             const request = await genValidatorElectReq(walletAddr, electionStart, maxFactor, electionADNLKey);
-            debug('INFO: request:', request);
             const { publicKey, signature } = await exportPubAndSign(electionKey, request);
-            debug(`INFO: publicKey=${publicKey}, signature=${signature}`);
             const payload = await genValidatorElectSigned(walletAddr, electionStart, maxFactor, electionADNLKey, publicKey, signature);
-            debug('INFO: payload:', payload);
 
             for (let n = 1; n <= sendAttempts; ++n) {
                 debug(`INFO: submitTransaction attempt ${n}`);
 
                 const result = await this.submitTransaction({
                     dest: electorAddr,
-                    value: stake,
+                    value: nanostake,
                     bounce: true,
                     allBalance: false,
                     payload
                 });
 
                 if (_.get(result, 'transaction.action.success')) {
+                    await this.datastore.setElectionsInfo({ id: activeElectionId, stake });
+
                     debug(`INFO: submitTransaction attempt ${n}... PASS`);
 
                     break;
@@ -305,8 +332,6 @@ class Validator {
                 debug(`INFO: submitTransaction attempt ${n}... FAIL`);
             }
         }
-
-        return activeElectionId;
     }
 }
 

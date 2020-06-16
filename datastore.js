@@ -5,53 +5,73 @@ const NeDB = require('nedb');
 const { stake } = require('./config');
 
 class Datastore {
-    constructor(filename) {
-        this.db = new NeDB({
-            filename,
+    constructor(config, elections) {
+        this.db = {}
+        this.db.config = new NeDB({
+            filename: config,
+            autoload: true
+        });
+        this.db.elections = new NeDB({
+            filename: elections,
             autoload: true
         });
     }
 
-    stakeSize(value) {
+    nextStakeSize(value) {
         return new Promise((resolve, reject) => {
             if (_.isNil(value)) {
-                this.db.findOne({ stakeSize: { $exists: true } }, (err, doc) => {
-                    err ? reject(err) : resolve(_.get(doc, 'stakeSize', stake));
+                this.db.config.findOne({}, (err, doc) => {
+                    err ? reject(err) : resolve(_.get(doc, 'nextStakeSize', stake));
                 });
             }
             else {
-                this.db.update({ stakeSize: { $exists: true } }, { $set: { stakeSize: value } }, { multi: true }, err => {
-                    err ? reject(err) : resolve(value);
+                const nextStakeSize = _.isInteger(value) && (value > 0) ? value : null;
+
+                this.db.config.update({}, { $set: { nextStakeSize } }, { upsert: true }, err => {
+                    err ? reject(err) : resolve(nextStakeSize);
                 });
             }
         });
     }
 
-    electionId(value) {
+    skipNextElections(value) {
         return new Promise((resolve, reject) => {
             if (_.isNil(value)) {
-                this.db.findOne({ electionId: { $exists: true } }, (err, doc) => {
-                    err ? reject(err) : resolve(_.get(doc, 'electionId', 0));
+                this.db.config.findOne({}, (err, doc) => {
+                    err ? reject(err) : resolve(_.get(doc, 'skipNextElections', false));
                 });
             }
             else {
-                this.db.update({ electionId: { $exists: true } }, { $set: { electionId: value } }, { multi: true }, err => {
-                    err ? reject(err) : resolve(value);
+                const skipNextElections = Boolean(value);
+
+                this.db.config.update({}, { $set: { skipNextElections } }, { upsert: true }, err => {
+                    err ? reject(err) : resolve(skipNextElections);
                 });
             }
         });
     }
 
-    skipElections(value) {
+    getElectionsInfo(id) {
         return new Promise((resolve, reject) => {
-            if (_.isNil(value)) {
-                this.db.findOne({ skipElections: { $exists: true } }, (err, doc) => {
-                    err ? reject(err) : resolve(_.get(doc, 'skipElections', false));
-                });
+            if (_.isNil(id)) {
+                reject(new Error('id is missing'));
             }
             else {
-                this.db.update({ skipElections: { $exists: true } }, { $set: { skipElections: value } }, { multi: true }, err => {
-                    err ? reject(err) : resolve(value);
+                this.db.elections.findOne({ id: { $eq: id } }, (err, doc) => {
+                    err ? reject(err) : resolve(doc);
+                });
+            }
+        });
+    }
+
+    setElectionsInfo(info) {
+        return new Promise((resolve, reject) => {
+            if (_.isNil(info.id)) {
+                reject(new Error('id is missing'));
+            }
+            else {
+                this.db.elections.update({ id }, info, { upsert: true }, err => {
+                    err ? reject(err) : resolve();
                 });
             }
         });

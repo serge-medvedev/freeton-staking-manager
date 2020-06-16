@@ -5,4 +5,4 @@ config.js
 config.js.example
 
 certs/
-data/
+db/

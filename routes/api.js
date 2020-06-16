@@ -1,21 +1,20 @@
 'use strict';
 
+const _ = require('lodash');
 const debug = require('debug')('api');
 const express = require('express');
 const Validator = require('../validator');
-const Datastore = require('../datastore');
-const { apiServer, freetonDB } = require('../config');
 
 const router = express.Router();
-const datastore = new Datastore(freetonDB);
+let validator;
 
-router.get('/', async (req, res, next) => {
+(async () => {
+    validator = await Validator.create();
+})();
+
+router.get('/runOnce', async (req, res, next) => {
     try {
-        const validator = await Validator.create(apiServer);
-        const id = await validator.run(
-            await datastore.stakeSize(), await datastore.electionId(), await datastore.skipElections());
-
-        await datastore.electionId(id);
+        await validator.runOnce();
 
         res.send();
     }
@@ -26,10 +25,62 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/config', async (req, res, next) => {
+router.get('/nextStakeSize', async (req, res, next) => {
     try {
-        const validator = await Validator.create(apiServer);
-        const result = await validator.getConfig(req.query.id);
+        const result = await validator.getNextStakeSize();
+
+        res.send(result.toString());
+    }
+    catch (err) {
+        console.error(err.message);
+
+        res.status(500).json(err);
+    }
+});
+
+router.post('/nextStakeSize', async (req, res, next) => {
+    try {
+        await validator.setNextStakeSize(_.toInteger(req.query.value));
+
+        res.send();
+    }
+    catch (err) {
+        console.error(err.message);
+
+        res.status(500).json(err);
+    }
+});
+
+router.post('/nextElections/:action', async (req, res, next) => {
+    try {
+        switch(req.params.action) {
+            case 'skip': {
+                await validator.skipNextElections(true);
+            } break;
+            case 'participate': {
+                await validator.skipNextElections(false);
+            } break;
+            default: {
+                const err = new Error('action is neither "skip" nor "participate"');
+
+                err.statusCode = 400;
+
+                throw err;
+            }
+        }
+
+        res.send();
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(err.statusCode || 500).json(err);
+    }
+});
+
+router.get('/activeElectionId', async (req, res, next) => {
+    try {
+        const result = await validator.getActiveElectionId();
 
         res.json(result);
     }
@@ -40,11 +91,9 @@ router.get('/config', async (req, res, next) => {
     }
 });
 
-router.get('/activeElectionId', async (req, res, next) => {
+router.get('/config', async (req, res, next) => {
     try {
-        const validator = await Validator.create(apiServer);
-        const electorAddr = await validator.getElectorAddr();
-        const result = await validator.getActiveElectionId(electorAddr);
+        const result = await validator.getConfig(req.query.id);
 
         res.json(result);
     }
