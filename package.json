@@ -1,5 +1,5 @@
 {
-  "name": "freeton-validator",
+  "name": "freeton-staking-manager",
   "version": "1.0.0",
   "private": true,
   "scripts": {

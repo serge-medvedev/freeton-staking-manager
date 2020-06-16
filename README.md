@@ -1,6 +1,6 @@
 [![sergemedvedev/freeton-validator](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager)
 
-# FreeTON Validator in Node.js
+# FreeTON Staking Manager
 
 ## HOWTO
 
@@ -20,7 +20,7 @@
         ports:
           - "3000:3000"
         environment:
-          DEBUG: api,validator
+          DEBUG: "api,lib:*"
         restart: always
     ```
     ```console

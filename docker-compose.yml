@@ -6,9 +6,9 @@ services:
     volumes:
       - ./config.js:/usr/src/app/config.js:ro
       - ./certs:/usr/src/app/certs:ro
-      - ./db:/data/freeton-validator
+      - ./db:/data/freeton-staking-manager
     ports:
       - "3000:3000"
     environment:
-      DEBUG: api,validator
+      DEBUG: "api,lib:*"
     restart: always

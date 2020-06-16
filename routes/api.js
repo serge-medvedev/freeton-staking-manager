@@ -3,18 +3,18 @@
 const _ = require('lodash');
 const debug = require('debug')('api');
 const express = require('express');
-const Validator = require('../lib/validator');
+const StakingManager = require('../lib/staking-manager');
 
 const router = express.Router();
-let validator;
+let stakingManager;
 
 (async () => {
-    validator = await Validator.create();
+    stakingManager = await StakingManager.create();
 })();
 
 router.get('/runOnce', async (req, res, next) => {
     try {
-        await validator.runOnce();
+        await stakingManager.runOnce();
 
         res.send();
     }
@@ -27,7 +27,7 @@ router.get('/runOnce', async (req, res, next) => {
 
 router.get('/nextStake', async (req, res, next) => {
     try {
-        const result = await validator.getNextStakeSize();
+        const result = await stakingManager.getNextStakeSize();
 
         res.send(result.toString());
     }
@@ -40,7 +40,7 @@ router.get('/nextStake', async (req, res, next) => {
 
 router.post('/nextStake', async (req, res, next) => {
     try {
-        await validator.setNextStakeSize(_.toInteger(req.query.value));
+        await stakingManager.setNextStakeSize(_.toInteger(req.query.value));
 
         res.send();
     }
@@ -55,10 +55,10 @@ router.post('/nextElections/:action', async (req, res, next) => {
     try {
         switch(req.params.action) {
             case 'skip': {
-                await validator.skipNextElections(true);
+                await stakingManager.skipNextElections(true);
             } break;
             case 'participate': {
-                await validator.skipNextElections(false);
+                await stakingManager.skipNextElections(false);
             } break;
             default: {
                 const err = new Error('action is neither "skip" nor "participate"');
@@ -80,7 +80,7 @@ router.post('/nextElections/:action', async (req, res, next) => {
 
 router.get('/activeElectionId', async (req, res, next) => {
     try {
-        const result = await validator.getActiveElectionId();
+        const result = await stakingManager.getActiveElectionId();
 
         res.json(result);
     }
@@ -93,7 +93,7 @@ router.get('/activeElectionId', async (req, res, next) => {
 
 router.get('/config', async (req, res, next) => {
     try {
-        const result = await validator.getConfig(req.query.id);
+        const result = await stakingManager.getConfig(req.query.id);
 
         res.json(result);
     }
