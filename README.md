@@ -34,7 +34,7 @@ Sends and recovers stakes (use crontab to schedule calls)
 
 Example:
 ```console
-$ curl -s localhost:3000/runOnce
+$ curl localhost:3000/runOnce
 
 ### then check out docker logs for additional info
 ```
@@ -46,7 +46,7 @@ __x__ amount in tokens
 
 Example:
 ```console
-$ curl -s -XPOST localhost:3000/nextStake?value=20000
+$ curl -XPOST localhost:3000/nextStake?value=20000
 
 ### your next stake will be 20000 tokens
 ```
@@ -58,7 +58,7 @@ __:action__ "skip" or "participate"
 
 Example:
 ```console
-$ curl -s -XPOST localhost:3000/nextElections/skip
+$ curl -XPOST localhost:3000/nextElections/skip
 
 ### you won't take a part in the next elections
 ```
