@@ -42,25 +42,25 @@ $ curl localhost:3000/runOnce
 ---
 
 ### POST /nextStake?value=x
-__x__ amount in tokens
+Set the stake value to be sent in upcoming elections
+
+> __x__ amount in tokens
 
 Example:
 ```console
 $ curl -XPOST localhost:3000/nextStake?value=20000
-
-### your next stake will be 20000 tokens
 ```
 
 ---
 
 ### POST /nextElections/:action
-__:action__ "skip" or "participate"
+Allows to skip upcoming elections (no idea why one would need it)
+
+> __:action__ "skip" or "participate"
 
 Example:
 ```console
 $ curl -XPOST localhost:3000/nextElections/skip
-
-### you won't take a part in the next elections
 ```
 
 ---
