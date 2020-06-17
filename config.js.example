@@ -11,7 +11,7 @@ module.exports = {
         },
         setcode: false
     },
-    stake: 10001,
+    defaultStake: 10001,
     skipElections: false,
     validatorEngine: {
         host: "1.2.3.4",
