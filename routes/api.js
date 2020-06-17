@@ -91,6 +91,19 @@ router.get('/activeElectionId', async (req, res, next) => {
     }
 });
 
+router.get('/walletBalance', async (req, res, next) => {
+    try {
+        const result = await stakingManager.getWalletBalance();
+
+        res.json(result);
+    }
+    catch (err) {
+        console.error(err.message);
+
+        res.status(500).json(err);
+    }
+});
+
 router.get('/config', async (req, res, next) => {
     try {
         const result = await stakingManager.getConfig(req.query.id);
