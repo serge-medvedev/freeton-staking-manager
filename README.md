@@ -42,7 +42,7 @@ $ curl localhost:3000/runOnce
 ---
 
 ### POST /nextStake?value=x
-Set the stake value to be sent in upcoming elections
+Sets the value of a stake to be sent in upcoming elections
 
 > __x__ amount in tokens
 
