@@ -85,7 +85,7 @@ router.get('/activeElectionId', async (req, res, next) => {
         res.json(result);
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
@@ -98,7 +98,7 @@ router.get('/walletBalance', async (req, res, next) => {
         res.json(result);
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
@@ -111,7 +111,7 @@ router.get('/config', async (req, res, next) => {
         res.json(result);
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
