@@ -24,7 +24,7 @@ const server = http.createServer(app);
 /**
  * Set global request timeout value.
  */
-server.setTimeout(10000);
+server.setTimeout(60000);
 
 /**
  * Listen on provided port, on all network interfaces.
