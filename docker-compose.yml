@@ -1,7 +1,7 @@
 version: "2.3"
 services:
   freeton-staking-manager:
-    image: freeton-staking-manager
+    image: sergemedvedev/freeton-staking-manager
     build: .
     volumes:
       - ./config.js:/usr/src/app/config.js:ro

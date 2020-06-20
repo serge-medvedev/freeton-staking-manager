@@ -11,8 +11,7 @@
     version: "2.3"
     services:
       freeton-staking-manager:
-        image: freeton-staking-manager
-        build: .
+        image: sergemedvedev/freeton-staking-manager
         volumes:
           - ./config.js:/usr/src/app/config.js:ro
           - ./certs:/usr/src/app/certs:ro
@@ -24,7 +23,7 @@
         restart: always
     ```
     ```console
-    $ docker-compose up -d --build
+    $ docker-compose up -d
     ```
 
 ## API Reference
