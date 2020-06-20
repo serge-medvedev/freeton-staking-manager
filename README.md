@@ -37,7 +37,6 @@ $ curl localhost:3000/runOnce
 
 ### then check out docker logs for additional info
 ```
-
 ---
 
 ### POST /nextStake?value=x
@@ -49,7 +48,6 @@ Example:
 ```console
 $ curl -XPOST localhost:3000/nextStake?value=20000
 ```
-
 ---
 
 ### POST /nextElections/:action
@@ -61,7 +59,24 @@ Example:
 ```console
 $ curl -XPOST localhost:3000/nextElections/skip
 ```
+---
 
+### GET /electionsHistory
+Returns info (keys, stake, etc.) about elections the node participated in
+
+Example:
+```console
+$ curl -s localhost:3000/electionsHistory | jq '.'
+```
+---
+
+### GET /timediff
+Returns the node's sync status
+
+Example:
+```console
+$ curl localhost:3000/timediff
+```
 ---
 
 ## TODO
