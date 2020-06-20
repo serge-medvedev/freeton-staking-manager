@@ -78,6 +78,19 @@ router.post('/nextElections/:action', async (req, res, next) => {
     }
 });
 
+router.get('/electionsHistory', async (req, res, next) => {
+    try {
+        const result = await stakingManager.getElectionsHistory();
+
+        res.json(result);
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(500).json(err);
+    }
+});
+
 router.get('/activeElectionId', async (req, res, next) => {
     try {
         const result = await stakingManager.getActiveElectionId();
