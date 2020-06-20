@@ -130,4 +130,17 @@ router.get('/config', async (req, res, next) => {
     }
 });
 
+router.get('/timediff', async (req, res, next) => {
+    try {
+        const result = await stakingManager.getTimeDiff();
+
+        res.send(result.toString());
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router;
