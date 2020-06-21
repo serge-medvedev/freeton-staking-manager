@@ -19,10 +19,44 @@ router.get('/runOnce', async (req, res, next) => {
         res.send();
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
+});
+
+router.post('/recoverStake', async (req, res, next) => {
+    debug('INFO: BEGIN');
+
+    try {
+        await stakingManager.recoverStake();
+
+        res.send();
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(500).json(err);
+    }
+
+    debug('INFO: END');
+});
+
+router.post('/sendStake', async (req, res, next) => {
+    debug('INFO: BEGIN');
+
+    try {
+        await stakingManager.sendStake();
+
+        res.send();
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(500).json(err);
+    }
+
+    debug('INFO: END');
 });
 
 router.get('/nextStake', async (req, res, next) => {
@@ -32,7 +66,7 @@ router.get('/nextStake', async (req, res, next) => {
         res.send(result.toString());
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
@@ -45,7 +79,7 @@ router.post('/nextStake', async (req, res, next) => {
         res.send();
     }
     catch (err) {
-        console.error(err.message);
+        debug('ERROR:', err.message);
 
         res.status(500).json(err);
     }
