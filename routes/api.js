@@ -12,24 +12,11 @@ let stakingManager;
     stakingManager = await StakingManager.create();
 })();
 
-router.get('/runOnce', async (req, res, next) => {
-    try {
-        await stakingManager.runOnce();
-
-        res.send();
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-});
-
-router.post('/recoverStake', async (req, res, next) => {
+router.post('/sendStake', async (req, res, next) => {
     debug('INFO: BEGIN');
 
     try {
-        await stakingManager.recoverStake();
+        await stakingManager.sendStake();
 
         res.send();
     }
@@ -42,11 +29,11 @@ router.post('/recoverStake', async (req, res, next) => {
     debug('INFO: END');
 });
 
-router.post('/sendStake', async (req, res, next) => {
+router.post('/recoverStake', async (req, res, next) => {
     debug('INFO: BEGIN');
 
     try {
-        await stakingManager.sendStake();
+        await stakingManager.recoverStake();
 
         res.send();
     }
