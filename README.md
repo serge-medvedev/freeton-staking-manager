@@ -1,4 +1,5 @@
-[![sergemedvedev/freeton-validator](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager)
+[![sergemedvedev/freeton-staking-manager](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager)
+![version](https://img.shields.io/github/package-json/v/serge-medvedev/freeton-staking-manager)
 
 # FreeTON Staking Manager
 
