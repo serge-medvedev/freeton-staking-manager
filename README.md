@@ -20,7 +20,7 @@
         ports:
           - "3000:3000"
         environment:
-          DEBUG: "api,lib:*"
+          DEBUG: "app,api,lib:*"
         restart: always
     ```
     ```console
