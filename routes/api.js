@@ -12,67 +12,43 @@ let stakingManager;
     stakingManager = await StakingManager.create();
 })();
 
-router.post('/sendStake', async (req, res, next) => {
+router.post('/stake/:action', async (req, res, next) => {
     debug('INFO: BEGIN');
 
     try {
-        await stakingManager.sendStake();
+        switch(req.params.action) {
+            case 'send': {
+                await stakingManager.sendStake();
+            } break;
+            case 'recover': {
+                await stakingManager.recoverStake();
+            } break;
+            case 'resize': {
+                await stakingManager.setNextStakeSize(_.toInteger(req.query.value));
+
+                debug(`INFO: Stake size is set to ${req.query.value}`);
+            } break;
+            default: {
+                const err = new Error('action isn\'t "send", "recover" nor "resize"');
+
+                err.statusCode = 400;
+
+                throw err;
+            }
+        }
 
         res.send();
     }
     catch (err) {
         debug('ERROR:', err.message);
 
-        res.status(500).json(err);
+        res.status(err.statusCode || 500).json(err);
     }
 
     debug('INFO: END');
 });
 
-router.post('/recoverStake', async (req, res, next) => {
-    debug('INFO: BEGIN');
-
-    try {
-        await stakingManager.recoverStake();
-
-        res.send();
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-
-    debug('INFO: END');
-});
-
-router.get('/nextStake', async (req, res, next) => {
-    try {
-        const result = await stakingManager.getNextStakeSize();
-
-        res.send(result.toString());
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-});
-
-router.post('/nextStake', async (req, res, next) => {
-    try {
-        await stakingManager.setNextStakeSize(_.toInteger(req.query.value));
-
-        res.send();
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-});
-
-router.post('/nextElections/:action', async (req, res, next) => {
+router.post('/elections/:action', async (req, res, next) => {
     try {
         switch(req.params.action) {
             case 'skip': {
@@ -99,7 +75,7 @@ router.post('/nextElections/:action', async (req, res, next) => {
     }
 });
 
-router.get('/electionsHistory', async (req, res, next) => {
+router.get('/elections/history', async (req, res, next) => {
     try {
         const result = await stakingManager.getElectionsHistory();
 
@@ -112,20 +88,7 @@ router.get('/electionsHistory', async (req, res, next) => {
     }
 });
 
-router.get('/activeElectionId', async (req, res, next) => {
-    try {
-        const result = await stakingManager.getActiveElectionId();
-
-        res.json(result);
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-});
-
-router.get('/walletBalance', async (req, res, next) => {
+router.get('/wallet/balance', async (req, res, next) => {
     try {
         const result = await stakingManager.getWalletBalance();
 

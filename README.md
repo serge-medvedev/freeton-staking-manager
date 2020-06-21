@@ -28,52 +28,45 @@
 
 ## API Reference
 
-### POST /sendStake
-Tries to send a stake
+### POST /stake/:action
+Tries to send/recover a stake
+
+> __:action__ "send" or "recover"
 
 Example:
 ```console
-$ curl -XPOST localhost:3000/sendStake
+$ curl -XPOST localhost:3000/stake/send
 ```
 ---
 
-### POST /recoverStake
-Tries to recover a stake
-
-Example:
-```console
-$ curl -XPOST localhost:3000/recoverStake
-```
----
-
-### POST /nextStake?value=x
-Sets the value of a stake to be sent in upcoming elections
+### POST /stake/resize?value=x
+Changes the value of a stake to be sent during elections
 
 > __x__ amount in tokens
 
 Example:
 ```console
-$ curl -XPOST localhost:3000/nextStake?value=20000
+$ curl -XPOST localhost:3000/stake/resize?value=20000
 ```
 ---
 
-### POST /nextElections/:action
+### POST /elections/:action
 Allows to skip upcoming elections (no idea why one would need it)
 
 > __:action__ "skip" or "participate"
 
 Example:
 ```console
-$ curl -XPOST localhost:3000/nextElections/skip
+$ curl -XPOST localhost:3000/elections/skip
 ```
 ---
 
-### GET /electionsHistory
+### GET /elections/history
 Returns info (keys, stake, etc.) about elections the node participated in
 
 Example:
 ```console
-$ curl -s localhost:3000/electionsHistory | jq '.'
+$ curl -s localhost:3000/elections/history | jq '.'
 ```
 ---
 
