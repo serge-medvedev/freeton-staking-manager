@@ -80,6 +80,15 @@ $ curl localhost:3000/timediff
 ```
 ---
 
+### GET /wallet/balance
+Returns the node's wallet balance (in nanotokens)
+
+Example:
+```console
+$ curl localhost:3000/wallet/balance
+```
+---
+
 ## TODO
 
 - Add more HTTP API docs
