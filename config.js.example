@@ -19,5 +19,11 @@ module.exports = {
     dbFiles: {
         config: '/data/freeton-staking-manager/config.db',
         elections: '/data/freeton-staking-manager/elections.db'
+    },
+    periodicJobs: {
+        enabled: true,
+        acceptableTimeDiff: -10,
+        sendStake: '0,15,30,45 * * * *',
+        recoverStake: '5,20,35,50 * * * *'
     }
 }

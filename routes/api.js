@@ -3,19 +3,16 @@
 const _ = require('lodash');
 const debug = require('debug')('api');
 const express = require('express');
-const StakingManager = require('../lib/staking-manager');
+const stakingManagerInstance = require('../lib/staking-manager-instance');
 
 const router = express.Router();
-let stakingManager;
-
-(async () => {
-    stakingManager = await StakingManager.create();
-})();
 
 router.post('/stake/:action', async (req, res, next) => {
     debug('INFO: BEGIN');
 
     try {
+        const stakingManager = await stakingManagerInstance.get();
+
         switch(req.params.action) {
             case 'send': {
                 await stakingManager.sendStake();
@@ -50,6 +47,8 @@ router.post('/stake/:action', async (req, res, next) => {
 
 router.post('/elections/:action', async (req, res, next) => {
     try {
+        const stakingManager = await stakingManagerInstance.get();
+
         switch(req.params.action) {
             case 'skip': {
                 await stakingManager.skipNextElections(true);
@@ -77,6 +76,7 @@ router.post('/elections/:action', async (req, res, next) => {
 
 router.get('/elections/history', async (req, res, next) => {
     try {
+        const stakingManager = await stakingManagerInstance.get();
         const result = await stakingManager.getElectionsHistory();
 
         res.json(result);
@@ -90,6 +90,7 @@ router.get('/elections/history', async (req, res, next) => {
 
 router.get('/timediff', async (req, res, next) => {
     try {
+        const stakingManager = await stakingManagerInstance.get();
         const result = await stakingManager.getTimeDiff();
 
         res.send(result.toString());
@@ -103,6 +104,7 @@ router.get('/timediff', async (req, res, next) => {
 
 router.get('/wallet/balance', async (req, res, next) => {
     try {
+        const stakingManager = await stakingManagerInstance.get();
         const result = await stakingManager.getWalletBalance();
 
         res.json(result);
@@ -116,6 +118,7 @@ router.get('/wallet/balance', async (req, res, next) => {
 
 router.get('/config', async (req, res, next) => {
     try {
+        const stakingManager = await stakingManagerInstance.get();
         const result = await stakingManager.getConfig(req.query.id);
 
         res.json(result);
