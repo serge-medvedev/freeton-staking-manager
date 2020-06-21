@@ -28,17 +28,6 @@
 
 ## API Reference
 
-### GET /runOnce
-[DEPRECATED] Sends and recovers stakes (use crontab to schedule calls)
-
-Example:
-```console
-$ curl localhost:3000/runOnce
-
-### then check out docker logs for additional info
-```
----
-
 ### POST /sendStake
 Tries to send a stake
 
