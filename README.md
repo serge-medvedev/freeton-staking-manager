@@ -30,22 +30,17 @@
 ## API Reference
 
 ### POST /stake/:action
-Tries to send/recover a stake
+Tries to send/recover/resize a stake
 
-> __:action__ "send" or "recover"
+> __:action__ "send", "recover" or "resize"
 
 Example:
 ```console
 $ curl -XPOST localhost:3000/stake/send
 ```
----
 
-### POST /stake/resize?value=x
-Changes the value of a stake to be sent during elections
+Pass the value as a query parameter to resize the stake:
 
-> __x__ amount in tokens
-
-Example:
 ```console
 $ curl -XPOST localhost:3000/stake/resize?value=20000
 ```

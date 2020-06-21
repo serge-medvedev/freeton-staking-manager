@@ -88,6 +88,19 @@ router.get('/elections/history', async (req, res, next) => {
     }
 });
 
+router.get('/timediff', async (req, res, next) => {
+    try {
+        const result = await stakingManager.getTimeDiff();
+
+        res.send(result.toString());
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+
+        res.status(500).json(err);
+    }
+});
+
 router.get('/wallet/balance', async (req, res, next) => {
     try {
         const result = await stakingManager.getWalletBalance();
@@ -106,19 +119,6 @@ router.get('/config', async (req, res, next) => {
         const result = await stakingManager.getConfig(req.query.id);
 
         res.json(result);
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-
-        res.status(500).json(err);
-    }
-});
-
-router.get('/timediff', async (req, res, next) => {
-    try {
-        const result = await stakingManager.getTimeDiff();
-
-        res.send(result.toString());
     }
     catch (err) {
         debug('ERROR:', err.message);
