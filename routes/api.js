@@ -13,7 +13,9 @@ router.post('/stake/:action', async (req, res, next) => {
 
         switch(req.params.action) {
             case 'send': {
-                await stakingManager.sendStake();
+                const ignoreIfAlreadySubmitted = _.some(['yes', 'true', '1'], v => v === _.toLower(req.query.force));
+
+                await stakingManager.sendStake(ignoreIfAlreadySubmitted);
             } break;
             case 'recover': {
                 await stakingManager.recoverStake();
