@@ -8,8 +8,6 @@ const stakingManagerInstance = require('../lib/staking-manager-instance');
 const router = express.Router();
 
 router.post('/stake/:action', async (req, res, next) => {
-    debug('INFO: BEGIN');
-
     try {
         const stakingManager = await stakingManagerInstance.get();
 
@@ -22,8 +20,6 @@ router.post('/stake/:action', async (req, res, next) => {
             } break;
             case 'resize': {
                 await stakingManager.setNextStakeSize(_.toInteger(req.query.value));
-
-                debug(`INFO: Stake size is set to ${req.query.value}`);
             } break;
             default: {
                 const err = new Error('action isn\'t "send", "recover" nor "resize"');
@@ -41,8 +37,6 @@ router.post('/stake/:action', async (req, res, next) => {
 
         res.status(err.statusCode || 500).json(err);
     }
-
-    debug('INFO: END');
 });
 
 router.post('/elections/:action', async (req, res, next) => {
