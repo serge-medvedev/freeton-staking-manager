@@ -36,7 +36,12 @@ Tries to send/recover/resize a stake
 
 Example:
 ```console
-$ curl -XPOST localhost:3000/stake/send
+$ curl -XPOST localhost:3000/stake/recover
+```
+
+Pass optional 'force' query parameter to send a stake more than once during the same elections:
+```console
+$ curl -XPOST localhost:3000/stake/send?force=yes
 ```
 
 Pass the value as a query parameter to resize the stake:
