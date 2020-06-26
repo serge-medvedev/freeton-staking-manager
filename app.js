@@ -10,7 +10,9 @@ const apiRouter = require('./routes/api');
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(logger('dev', {
+    skip: (req, res) => _.startsWith(req.originalUrl, '/stats') && res.statusCode < 400
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

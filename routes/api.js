@@ -32,9 +32,7 @@ async function getLatestStakeAndWeight() {
 async function getStats(interval) {
     const stakingManager = await stakingManagerInstance.get();
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
-    const stakeAndWeight = await getLatestStakeAndWeight(
-        _.chain(await stakingManager.getPastElectionIds()).join().value()
-    );
+    const stakeAndWeight = await getLatestStakeAndWeight();
 
     return {
         ...stakeAndWeight,
@@ -146,7 +144,7 @@ router.get('/stats/:representation', asyncHandler(async (req, res) => {
             res.json({ stake, weight, blocksSignatures });
         } break;
         case 'influxdb': {
-            res.send(`validator host=dev.ratatoskr.online stake=${stake},weight=${weight},blocks_signatures=${blocksSignatures}`);
+            res.send(`validator,host=dev.ratatoskr.online stake=${stake},weight=${weight},blocks_signatures=${blocksSignatures}`);
         } break;
         default: {
             const err = new Error('representation must be either \'json\' or \'influxdb\'');
