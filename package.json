@@ -10,8 +10,10 @@
     "cron": "~1.8.2",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-async-handler": "~1.1.4",
     "lodash": "~4.17.15",
     "mem": "~6.1.0",
+    "moment": "~2.27.0",
     "morgan": "~1.9.1",
     "nedb": "~1.8.0",
     "ton-client-node-js": "~0.23.0"
