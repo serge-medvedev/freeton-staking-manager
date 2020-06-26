@@ -30,13 +30,28 @@ async function getLatestStakeAndWeight() {
 }
 
 async function getStats(interval) {
-    const stakingManager = await stakingManagerInstance.get();
-    const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
-    const stakeAndWeight = await getLatestStakeAndWeight();
+    const result = {
+        stake: 0,
+        weight: 0,
+        blocksSignatures: 0
+    }
 
-    return {
-        ...stakeAndWeight,
-        blocksSignatures
+    try {
+        const stakingManager = await stakingManagerInstance.get();
+        const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
+
+        result.blocksSignatures = blocksSignatures;
+
+        const { stake, weight } = await getLatestStakeAndWeight();
+
+        result.stake = stake;
+        result.weight = weight;
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+    }
+    finally {
+        return result;
     }
 }
 
@@ -129,7 +144,7 @@ router.get('/wallet/balance', asyncHandler(async (req, res) => {
 
 router.get('/config', asyncHandler(async (req, res) => {
     const stakingManager = await stakingManagerInstance.get();
-    const result = await stakingManager.getConfig(req.query.id);
+    const result = await stakingManager.getConfig(_.toInteger(req.query.id));
 
     res.json(result);
 }), errorHandler);
