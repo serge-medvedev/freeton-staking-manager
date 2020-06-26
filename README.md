@@ -39,12 +39,12 @@ Example:
 $ curl -XPOST localhost:3000/stake/recover
 ```
 
-Pass optional 'force' query parameter to send a stake more than once during the same elections:
+Pass _force_ query parameter to send a stake more than once during the same elections:
 ```console
 $ curl -XPOST localhost:3000/stake/send?force=yes
 ```
 
-Pass the value as a query parameter to resize the stake:
+Pass _value_ query parameter to resize the stake:
 
 ```console
 $ curl -XPOST localhost:3000/stake/resize?value=20000
@@ -87,6 +87,20 @@ Example:
 ```console
 $ curl localhost:3000/wallet/balance
 ```
+---
+
+### GET /stats/:representation
+Shows how validator does
+
+> __:representation__ "json" or "influxdb"
+
+Pass _interval_ query parameter (in seconds) to change the time frame for blocks signatures counting (default: 60s)
+
+Example:
+```console
+$ curl localhost:3000/stats/json?interval=3600
+```
+
 ---
 
 ## TODO
