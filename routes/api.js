@@ -23,8 +23,11 @@ const getLatestStakeAndWeightMemoized = mem(async () => {
 
 async function getLatestStakeAndWeight() {
     const stakingManager = await stakingManagerInstance.get();
-    const pastElectionIds = await stakingManager.getPastElectionIds();
-    const cacheKey = _.join(pastElectionIds);
+    const cacheKey = _
+        .chain(await stakingManager.getPastElectionIds())
+        .map(_.toString)
+        .join()
+        .value();
 
     return getLatestStakeAndWeightMemoized(cacheKey);
 }
