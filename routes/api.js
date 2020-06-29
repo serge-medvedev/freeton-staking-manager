@@ -10,7 +10,7 @@ const stakingManagerInstance = require('../lib/staking-manager-instance');
 const router = express.Router();
 
 function errorHandler(err, req, res, next) {
-    debug('ERROR:', err.message);
+    debug('ERROR:', JSON.stringify(err, null, 2));
 
     res.status(err.statusCode || 500).json(err);
 }
@@ -33,28 +33,14 @@ async function getLatestStakeAndWeight() {
 }
 
 async function getStats(interval) {
-    const result = {
-        stake: 0,
-        weight: 0,
-        blocksSignatures: 0
-    }
+    const stakingManager = await stakingManagerInstance.get();
+    const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
+    const { stake, weight } = await getLatestStakeAndWeight();
 
-    try {
-        const stakingManager = await stakingManagerInstance.get();
-        const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
-
-        result.blocksSignatures = blocksSignatures;
-
-        const { stake, weight } = await getLatestStakeAndWeight();
-
-        result.stake = stake;
-        result.weight = weight;
-    }
-    catch (err) {
-        debug('ERROR:', err.message);
-    }
-    finally {
-        return result;
+    return {
+        blocksSignatures,
+        stake,
+        weight
     }
 }
 
