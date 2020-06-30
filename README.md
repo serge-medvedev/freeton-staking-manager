@@ -44,7 +44,7 @@ Pass _force_ query parameter to send a stake more than once during the same elec
 $ curl -XPOST localhost:3000/stake/send?force=yes
 ```
 
-Pass _value_ query parameter to resize the stake:
+Pass _value_ query parameter to set the default stake size:
 
 ```console
 $ curl -XPOST localhost:3000/stake/resize?value=20000
@@ -71,26 +71,8 @@ $ curl -s localhost:3000/elections/history | jq '.'
 ```
 ---
 
-### GET /timediff
-Returns the node's sync status
-
-Example:
-```console
-$ curl localhost:3000/timediff
-```
----
-
-### GET /wallet/balance
-Returns the node's wallet balance (in nanotokens)
-
-Example:
-```console
-$ curl localhost:3000/wallet/balance
-```
----
-
 ### GET /stats/:representation
-Shows how validator does
+Shows validator stats
 
 > __:representation__ "json" or "influxdb"
 
@@ -105,4 +87,5 @@ $ curl localhost:3000/stats/json?interval=3600
 
 ## TODO
 
-- Add more HTTP API docs
+- Add basic authentication
+- Add multiple nodes management
