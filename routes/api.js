@@ -36,11 +36,15 @@ async function getStats(interval) {
     const stakingManager = await stakingManagerInstance.get();
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
     const { stake, weight } = await getLatestStakeAndWeight();
+    const timeDiff = await stakingManager.getTimeDiff();
+    const walletBalance = await stakingManager.getWalletBalance();
 
     return {
         blocksSignatures,
         stake,
-        weight
+        weight,
+        timeDiff,
+        walletBalance
     }
 }
 
@@ -117,38 +121,24 @@ router.get('/elections/:target', asyncHandler(async (req, res) => {
     res.json(result);
 }), errorHandler);
 
-router.get('/timediff', asyncHandler(async (req, res) => {
-    const stakingManager = await stakingManagerInstance.get();
-    const result = await stakingManager.getTimeDiff();
-
-    res.send(result.toString());
-}), errorHandler);
-
-router.get('/wallet/balance', asyncHandler(async (req, res) => {
-    const stakingManager = await stakingManagerInstance.get();
-    const result = await stakingManager.getWalletBalance();
-
-    res.json(result);
-}), errorHandler);
-
-router.get('/config', asyncHandler(async (req, res) => {
-    const stakingManager = await stakingManagerInstance.get();
-    const result = await stakingManager.getConfig(_.toInteger(req.query.id));
-
-    res.json(result);
-}), errorHandler);
-
 router.get('/stats/:representation', asyncHandler(async (req, res) => {
-    const { stake, weight, blocksSignatures } = await getStats(
+    const stats = await getStats(
         _.chain(req.query.interval).defaultTo(60).toInteger().value()
     );
 
     switch (req.params.representation) {
         case 'json': {
-            res.json({ stake, weight, blocksSignatures });
+            res.json(stats);
         } break;
         case 'influxdb': {
-            res.send(`validator,host=dev.ratatoskr.online stake=${stake},weight=${weight},blocks_signatures=${blocksSignatures}`);
+            const fields = _
+                .chain(stats)
+                .toPairs()
+                .map(([k, v]) => `${_.snakeCase(k)}=${v}`)
+                .join()
+                .value();
+
+            res.send(`freeton-validator,host=dev.ratatoskr.online ${fields}`);
         } break;
         default: {
             const err = new Error('representation must be either \'json\' or \'influxdb\'');
@@ -158,6 +148,13 @@ router.get('/stats/:representation', asyncHandler(async (req, res) => {
             throw err;
         }
     }
+}), errorHandler);
+
+router.get('/config', asyncHandler(async (req, res) => {
+    const stakingManager = await stakingManagerInstance.get();
+    const result = await stakingManager.getConfig(_.toInteger(req.query.id));
+
+    res.json(result);
 }), errorHandler);
 
 module.exports = router;
