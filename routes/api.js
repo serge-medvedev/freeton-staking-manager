@@ -20,24 +20,23 @@ const getLatestStakeAndWeightMemoized = mem(async () => {
 
     return stakingManager.getLatestStakeAndWeight();
 });
+const getWalletBalanceMemoized = mem(async () => {
+    const stakingManager = await stakingManagerInstance.get();
 
-async function getLatestStakeAndWeight() {
+    return stakingManager.getWalletBalance();
+}, { maxAge: 300000 });
+
+async function getStats(interval) {
     const stakingManager = await stakingManagerInstance.get();
     const cacheKey = _
         .chain(await stakingManager.getPastElectionIds())
         .map(_.toString)
         .join()
         .value();
-
-    return getLatestStakeAndWeightMemoized(cacheKey);
-}
-
-async function getStats(interval) {
-    const stakingManager = await stakingManagerInstance.get();
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
-    const { stake, weight } = await getLatestStakeAndWeight();
+    const { stake, weight } = await getLatestStakeAndWeightMemoized(cacheKey);
     const timeDiff = await stakingManager.getTimeDiff();
-    const walletBalance = await stakingManager.getWalletBalance();
+    const walletBalance = await getWalletBalanceMemoized(cacheKey);
 
     return {
         blocksSignatures,
