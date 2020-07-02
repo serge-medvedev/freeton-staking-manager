@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 const debug = require('debug')('api');
-const mem = require('mem');
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const stakingManagerInstance = require('../lib/staking-manager-instance');
@@ -15,28 +14,23 @@ function errorHandler(err, req, res, next) {
     res.status(err.statusCode || 500).json(err);
 }
 
-const getLatestStakeAndWeightMemoized = mem(async () => {
+const getLatestStakeAndWeightThrottled = _.throttle(async () => {
     const stakingManager = await stakingManagerInstance.get();
 
     return stakingManager.getLatestStakeAndWeight();
-});
-const getWalletBalanceMemoized = mem(async () => {
+}, 300000);
+const getWalletBalanceThrottled = _.throttle(async () => {
     const stakingManager = await stakingManagerInstance.get();
 
     return stakingManager.getWalletBalance();
-}, { maxAge: 300000 });
+}, 300000);
 
 async function getStats(interval) {
     const stakingManager = await stakingManagerInstance.get();
-    const cacheKey = _
-        .chain(await stakingManager.getPastElectionIds())
-        .map(_.toString)
-        .join()
-        .value();
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
-    const { stake, weight } = await getLatestStakeAndWeightMemoized(cacheKey);
+    const { stake, weight } = await getLatestStakeAndWeightThrottled();
     const timeDiff = await stakingManager.getTimeDiff();
-    const walletBalance = await getWalletBalanceMemoized(cacheKey);
+    const walletBalance = await getWalletBalanceThrottled();
 
     return {
         blocksSignatures,
