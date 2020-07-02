@@ -1,6 +1,7 @@
 FROM debian:stretch-slim AS builder
 
-ENV TON_STABLE_GITHUB_COMMIT_ID=eecf05ca5934c8c65c8113237fa4a00adcfea697
+ENV TON_GITHUB_REPO=https://github.com/tonlabs/ton-1.git
+ENV TON_STABLE_GITHUB_COMMIT_ID=9186d482981d2a784bcbd3322cf0c09ea8184991
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -11,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     libz-dev \
     libssl-dev
 
-RUN git clone --recursive https://github.com/ton-blockchain/ton.git \
+RUN git clone --recursive $TON_GITHUB_REPO ton \
     && cd ton \
     && git checkout $TON_STABLE_GITHUB_COMMIT_ID \
     && mkdir build && cd build \
