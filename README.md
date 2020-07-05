@@ -1,9 +1,9 @@
-[![sergemedvedev/freeton-staking-manager](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager)
-![version](https://img.shields.io/github/package-json/v/tag/serge-medvedev/freeton-staking-manager?sort=semver)
+![build](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)
+[![version](https://img.shields.io/docker/v/sergemedvedev/freeton-staking-manager?sort=semver)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager/tags)
 
 # FreeTON Staking Manager
 
-## Support the project
+## Support the Project
 You could help by:
 - submitting an issue
 - making a pull request
