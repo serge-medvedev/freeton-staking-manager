@@ -1,7 +1,7 @@
 FROM debian:stretch-slim AS builder
 
 ENV TON_GITHUB_REPO=https://github.com/tonlabs/ton-1.git
-ENV TON_STABLE_GITHUB_COMMIT_ID=9186d482981d2a784bcbd3322cf0c09ea8184991
+ENV TON_STABLE_GITHUB_COMMIT_ID=5847ce12423ed50e7954b01683e72f8e15ccfdcc
 
 RUN apt-get update && apt-get install -y \
     build-essential \
