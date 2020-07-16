@@ -9,15 +9,22 @@ const stakingManagerInstance = require('../lib/staking-manager-instance');
 const router = express.Router();
 
 function errorHandler(err, req, res, next) {
-    debug('ERROR:', JSON.stringify(err, null, 2));
+    debug('ERROR:', err.message);
 
-    res.status(err.statusCode || 500).json(err);
+    res.status(err.statusCode || 500).send();
 }
 
 const getLatestStakeAndWeightThrottled = _.throttle(async () => {
-    const stakingManager = await stakingManagerInstance.get();
+    let result = { stake: 0, weight: 0 }
 
-    return stakingManager.getLatestStakeAndWeight();
+    try {
+        const stakingManager = await stakingManagerInstance.get();
+
+        result = await stakingManager.getLatestStakeAndWeight();
+    }
+    finally {
+        return result;
+    }
 }, 300000);
 const getWalletBalanceThrottled = _.throttle(async () => {
     const stakingManager = await stakingManagerInstance.get();
