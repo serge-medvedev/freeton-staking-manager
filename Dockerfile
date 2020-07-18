@@ -17,7 +17,7 @@ RUN git clone --recursive $TON_GITHUB_REPO ton \
     && git checkout $TON_STABLE_GITHUB_COMMIT_ID \
     && mkdir build && cd build \
     && cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DPORTABLE=ON \
-    && ninja fift validator-engine-console
+    && ninja fift validator-engine-console generate-random-id
 
 RUN git clone https://github.com/tonlabs/ton-labs-contracts.git
 
@@ -34,8 +34,9 @@ RUN apt-get update && apt-get install -y \
     libssl1.1
 
 COPY --from=builder \
-    /ton/build/validator-engine-console/validator-engine-console \
     /ton/build/crypto/fift \
+    /ton/build/validator-engine-console/validator-engine-console \
+    /ton/build/utils/generate-random-id \
     /usr/bin/
 COPY --from=builder /ton/crypto/fift/lib ton/crypto/fift/lib
 COPY --from=builder /ton/crypto/smartcont ton/crypto/smartcont
