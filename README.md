@@ -90,6 +90,15 @@ $ curl -s localhost:3000/elections/history | jq '.'
 ```
 ---
 
+### POST /validation/resume
+Returns the node back to validation after it's re-sync'ed from scratch
+
+Example:
+```console
+$ curl -XPOST localhost:3000/validation/resume
+```
+---
+
 ### GET /stats/:representation
 Shows validator stats
 
