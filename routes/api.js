@@ -121,6 +121,14 @@ router.get('/elections/:target', asyncHandler(async (req, res) => {
     res.json(result);
 }), errorHandler);
 
+router.post('/validation/resume', asyncHandler(async (req, res) => {
+    const stakingManager = await stakingManagerInstance.get();
+
+    await stakingManager.restoreKeys();
+
+    res.send();
+}), errorHandler);
+
 router.get('/stats/:representation', asyncHandler(async (req, res) => {
     const stats = await getStats(
         _.chain(req.query.interval).defaultTo(60).toInteger().value()
