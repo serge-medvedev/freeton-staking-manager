@@ -73,7 +73,7 @@ router.post('/stake/:action', asyncHandler(async (req, res) => {
     }
 
     res.send();
-}, errorHandler));
+}), errorHandler);
 
 router.post('/elections/:action', asyncHandler(async (req, res) => {
     const stakingManager = await stakingManagerInstance.get();
