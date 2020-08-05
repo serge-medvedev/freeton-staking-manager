@@ -9,7 +9,7 @@ const stakingManagerInstance = require('../lib/staking-manager-instance');
 const router = express.Router();
 
 function errorHandler(err, req, res, next) {
-    debug('ERROR:', err.message);
+    debug('ERROR:', err);
 
     res.status(err.statusCode || 500).send();
 }

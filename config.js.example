@@ -1,5 +1,6 @@
 module.exports = {
     apiServer: 'https://net.ton.dev',
+    toolset: 'tonos', // use 'native' if you need your transactions submitted via lite-client
     msig: {
         addr: {
             wc: -1,
@@ -12,6 +13,10 @@ module.exports = {
         setcode: false
     },
     defaultStake: 10001,
+    liteServer: {
+        host: '1.2.3.4',
+        port: 3031
+    },
     validatorEngine: {
         host: "1.2.3.4",
         port: 3030
