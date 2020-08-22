@@ -1,6 +1,7 @@
 module.exports = {
     apiServer: 'https://net.ton.dev',
     toolset: 'tonos', // use 'native' if you need your transactions submitted via lite-client
+    funding: 'wallet', // use 'depool' if you wish to send stakes from DePool
     msig: {
         addr: {
             wc: -1,
@@ -11,6 +12,9 @@ module.exports = {
             secret: "4a579ee59f540e325e2d0dad600f412c04cf80fae2ae25294a32e7412385787c"
         },
         setcode: false
+    },
+    depool: {
+        addr: '0:2de8d63dc6169913cb734fa8effca16fa8c4fd2550834c1b9196d8a690f6e182'
     },
     defaultStake: 10001,
     liteServer: {
