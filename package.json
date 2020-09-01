@@ -17,7 +17,8 @@
     "moment": "~2.27.0",
     "morgan": "~1.9.1",
     "nedb": "~1.8.0",
-    "ton-client-node-js": "~0.25.0",
+    "ton-client-js": "~0.26.0",
+    "ton-client-node-js": "tonlabs/ton-client-node-js#0.26.0-rc",
     "tmp-promise": "~3.0.2"
   }
 }

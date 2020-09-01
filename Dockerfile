@@ -1,7 +1,7 @@
 FROM debian:stretch-slim AS builder
 
 ENV TON_GITHUB_REPO=https://github.com/tonlabs/ton-1.git
-ENV TON_STABLE_GITHUB_COMMIT_ID=5847ce12423ed50e7954b01683e72f8e15ccfdcc
+ENV TON_STABLE_GITHUB_COMMIT_ID=37d1935f504c1d2939155325f0cbf2c1f595dbd4
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -29,6 +29,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y \
+    git \
     ca-certificates \
     zlib1g \
     libssl1.1
