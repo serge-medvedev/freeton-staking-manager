@@ -1,6 +1,7 @@
 # Summary of Changes
 
-## v1.3.1-beta
+## v1.4.0-beta
+- DePool staking made timer-compatible (past events are checked for the Proxy address first)
 - minor fixes
 
 ## v1.3.0
