@@ -5,6 +5,7 @@ const debug = require('debug')('api');
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const stakingManagerInstance = require('../lib/staking-manager-instance');
+const { msig } = require('../config');
 
 const router = express.Router();
 
@@ -26,10 +27,11 @@ const getLatestStakeAndWeightThrottled = _.throttle(async () => {
         return result;
     }
 }, 300000);
-const getWalletBalanceThrottled = _.throttle(async () => {
+const getAccountBalanceThrottled = _.throttle(async () => {
     const stakingManager = await stakingManagerInstance.get();
+    const addr = `${msig.addr.wc}:${msig.addr.id}`;
 
-    return stakingManager.getWalletBalance();
+    return stakingManager.getAccountBalance(addr);
 }, 300000);
 
 async function getStats(interval) {
@@ -37,14 +39,14 @@ async function getStats(interval) {
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
     const { stake, weight } = await getLatestStakeAndWeightThrottled();
     const timeDiff = await stakingManager.getTimeDiff();
-    const walletBalance = await getWalletBalanceThrottled();
+    const accountBalance = await getAccountBalanceThrottled();
 
     return {
         blocksSignatures,
         stake,
         weight,
         timeDiff,
-        walletBalance
+        accountBalance
     }
 }
 

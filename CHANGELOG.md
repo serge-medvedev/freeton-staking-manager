@@ -1,5 +1,8 @@
 # Summary of Changes
 
+## v1.3.1-beta
+- minor fixes
+
 ## v1.3.0
 - 'depool' funding mode: stakes might be sent from DePool instead of a wallet
 
