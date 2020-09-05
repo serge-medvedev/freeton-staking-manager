@@ -21,7 +21,8 @@ module.exports = {
                 public: '4944641266987d9ae1a3dbe4052fed101c9833476b1a8763ae99217f3229f58e',
                 private: '556a02c98a9acff3a467892829abf68c0adf432b51e7a4f499325d272c837251'
             }
-        }
+        },
+        eventAnticipationTimeout: 300000 // in milliseconds
     },
     defaultStake: 10001,
     liteServer: {
