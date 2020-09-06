@@ -1,5 +1,8 @@
 # Summary of Changes
 
+## v1.5.0-beta
+- DePool staking doesn't depend on Helper smart contract anymore
+
 ## v1.4.0
 - DePool staking made timer-compatible (past events are checked for the Proxy address first)
 - minor fixes

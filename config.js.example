@@ -15,13 +15,6 @@ module.exports = {
     },
     depool: {
         addr: '0:2de8d63dc6169913cb734fa8effca16fa8c4fd2550834c1b9196d8a690f6e182',
-        helper: {
-            addr: '0:a933e2ff58f1c445bcac09c50f44494374215eae740a33da8aefc9ca137de40b',
-            keys: {
-                public: '4944641266987d9ae1a3dbe4052fed101c9833476b1a8763ae99217f3229f58e',
-                private: '556a02c98a9acff3a467892829abf68c0adf432b51e7a4f499325d272c837251'
-            }
-        },
         eventAnticipationTimeout: 300000 // in milliseconds
     },
     defaultStake: 10001,
