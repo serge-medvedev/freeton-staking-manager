@@ -1,6 +1,6 @@
 # Summary of Changes
 
-## v1.5.0-beta
+## v1.5.0
 - DePool staking doesn't depend on Helper smart contract anymore
 
 ## v1.4.0
