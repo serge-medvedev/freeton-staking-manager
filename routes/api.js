@@ -167,4 +167,12 @@ router.get('/config', asyncHandler(async (req, res) => {
     res.json(result);
 }), errorHandler);
 
+router.get('/ticktock', asyncHandler(async (req, res) => {
+    const stakingManager = await stakingManagerInstance.get();
+
+    await stakingManager.sendTicktock();
+
+    res.send();
+}), errorHandler);
+
 module.exports = router;
