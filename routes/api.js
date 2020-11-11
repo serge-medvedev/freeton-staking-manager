@@ -109,7 +109,7 @@ router.get('/elections/:target', asyncHandler(async (req, res) => {
             result = await stakingManager.getElectionsHistory();
         } break;
         case 'participants': {
-            result = await stakingManager.participantListExtended();
+            result = await stakingManager.getParticipantListExtended();
         } break;
         default: {
             const err = new Error('target is neither "history" nor "participants"');
