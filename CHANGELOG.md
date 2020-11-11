@@ -1,5 +1,9 @@
 # Summary of Changes
 
+## v1.6.0
+- 'ticktock' request got accessible through HTTP API
+- a few fixes, including one related to DePool contract update
+
 ## v1.5.0
 - DePool staking doesn't depend on Helper smart contract anymore
 
