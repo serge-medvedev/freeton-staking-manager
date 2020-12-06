@@ -1,21 +1,24 @@
 # Summary of Changes
 
-## v1.6.0
+## 1.7.0
+- moved to the newest SDK version (@tonclient/core 1.2.1)
+
+## 1.6.0
 - 'ticktock' request got accessible through HTTP API
 - a few fixes, including one related to DePool contract update
 
-## v1.5.0
+## 1.5.0
 - DePool staking doesn't depend on Helper smart contract anymore
 
-## v1.4.0
+## 1.4.0
 - DePool staking made timer-compatible (past events are checked for the Proxy address first)
 - minor fixes
 
-## v1.3.0
+## 1.3.0
 - 'depool' funding mode: stakes might be sent from DePool instead of a wallet
 
-## v1.2.0
+## 1.2.0
 - 'native' mode: __lite-client__ might be used for submitting transactions
 
-## v1.1.1
+## 1.1.1
 - minor fixes

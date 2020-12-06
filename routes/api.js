@@ -5,7 +5,7 @@ const debug = require('debug')('api');
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const stakingManagerInstance = require('../lib/staking-manager-instance');
-const { msig } = require('../config');
+const { msig, stats } = require('../config');
 
 const router = express.Router();
 
@@ -132,23 +132,23 @@ router.post('/validation/resume', asyncHandler(async (req, res) => {
 }), errorHandler);
 
 router.get('/stats/:representation', asyncHandler(async (req, res) => {
-    const stats = await getStats(
+    const result = await getStats(
         _.chain(req.query.interval).defaultTo(60).toInteger().value()
     );
 
     switch (req.params.representation) {
         case 'json': {
-            res.json(stats);
+            res.json(result);
         } break;
         case 'influxdb': {
             const fields = _
-                .chain(stats)
+                .chain(result)
                 .toPairs()
                 .map(([k, v]) => `${_.snakeCase(k)}=${v}`)
                 .join()
                 .value();
 
-            res.send(`freeton-validator,host=dev.ratatoskr.online ${fields}`);
+            res.send(`freeton-validator,host=${_.get(stats, 'influxdb.host', 'localhost')} ${fields}`);
         } break;
         default: {
             const err = new Error('representation must be either \'json\' or \'influxdb\'');
