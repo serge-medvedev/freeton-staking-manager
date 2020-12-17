@@ -92,6 +92,15 @@ $ curl -s localhost:3000/elections/history | jq '.'
 ```
 ---
 
+### GET /ticktock
+Invokes DePool's State Update method (ticktock)
+
+Example:
+```console
+$ curl localhost:3000/ticktock
+```
+---
+
 ### POST /validation/resume
 Returns the node back to validation after it's re-sync'ed from scratch
 
