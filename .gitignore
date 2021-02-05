@@ -1,5 +1,6 @@
 config.js
 docker-compsoe.yml
+*.log
 
 certs/
 db/
