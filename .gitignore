@@ -1,5 +1,7 @@
+.env
+docker-compose.yml
 config.js
-docker-compsoe.yml
+curl-headers
 *.log
 
 certs/
