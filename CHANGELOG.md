@@ -1,5 +1,10 @@
 # Summary of Changes
 
+## 2.0.0
+- Rust Node/Net support
+- jwt-based authentication for admin
+- significant refactoring, additional error handling and other minor improvements
+
 ## 1.7.0
 - moved to the newest SDK version (@tonclient/core 1.2.1)
 

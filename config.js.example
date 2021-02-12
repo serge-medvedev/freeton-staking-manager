@@ -1,35 +1,56 @@
 module.exports = {
     apiServer: 'https://net.ton.dev',
-    toolset: 'tonos', // use 'native' if you need your transactions submitted via lite-client
-    funding: 'wallet', // use 'depool' if you wish to send stakes from DePool
-    msig: {
-        addr: {
-            wc: -1,
-            id: "dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92"
-        },
+
+    wallet: {
+        addr: "-1:dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92",
         keys: {
             public: "c89b32a11ec837298731ebbd2176f0cf96dab52f978d6cbe198fafeafaaa0fc5",
             secret: "4a579ee59f540e325e2d0dad600f412c04cf80fae2ae25294a32e7412385787c"
+        }
+    },
+
+    policy: {
+        type: <modern|legacy>,
+
+        funding: {
+            type: <wallet|depool>,
+            
+            // in case of 'wallet'
+            defaultStake: 10001 // in TONs
+            
+            // in case of 'depool'
+            addr: '0:2de8d63dc6169913cb734fa8effca16fa8c4fd2550834c1b9196d8a690f6e182',
+            eventAnticipationTimeout: 300000 // in milliseconds
         },
-        setcode: false
-    },
-    depool: {
-        addr: '0:2de8d63dc6169913cb734fa8effca16fa8c4fd2550834c1b9196d8a690f6e182',
-        eventAnticipationTimeout: 300000 // in milliseconds
-    },
-    defaultStake: 10001,
-    liteServer: {
-        host: '1.2.3.4',
-        port: 3031
-    },
-    validatorEngine: {
-        host: "1.2.3.4",
-        port: 3030
-    },
+        
+        // in case of 'modern'
+        console: {
+            client: {
+                privateKey: '<private key, public counterpart of which you pass to your node with "--ckey" arg>'
+            },
+            server: {
+                host: '1.2.3.4',
+                port: 3031,
+                publicKey: '<public key of the controlling server your node has generated for you>'
+            }
+        }
+
+        // in case of 'legacy'
+        validatorEngine: {
+            host: "1.2.3.4",
+            port: 3030
+        },
+        liteServer: { // if you want to send transactions via lite-client
+            host: '1.2.3.4',
+            port: 3031
+        }
+    }
+
     dbFiles: {
         config: '/data/freeton-staking-manager/config.db',
         elections: '/data/freeton-staking-manager/elections.db'
     },
+
     periodicJobs: {
         enabled: true,
         acceptableTimeDiff: -10,
