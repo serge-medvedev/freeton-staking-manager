@@ -5,7 +5,7 @@ const debug = require('debug')('api');
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const stakingManagerInstance = require('../lib/staking-manager-instance');
-const { msig, stats } = require('../config');
+const { stats } = require('../config');
 
 const router = express.Router();
 
@@ -27,11 +27,10 @@ const getLatestStakeAndWeightThrottled = _.throttle(async () => {
         return result;
     }
 }, 300000);
-const getAccountBalanceThrottled = _.throttle(async () => {
+const getWalletBalanceThrottled = _.throttle(async () => {
     const stakingManager = await stakingManagerInstance.get();
-    const addr = `${msig.addr.wc}:${msig.addr.id}`;
 
-    return stakingManager.getAccountBalance(addr);
+    return stakingManager.getWalletBalance();
 }, 300000);
 
 async function getStats(interval) {
@@ -39,14 +38,14 @@ async function getStats(interval) {
     const blocksSignatures = await stakingManager.countBlocksSignatures(interval);
     const { stake, weight } = await getLatestStakeAndWeightThrottled();
     const timeDiff = await stakingManager.getTimeDiff();
-    const accountBalance = await getAccountBalanceThrottled();
+    const walletBalance = await getWalletBalanceThrottled();
 
     return {
         blocksSignatures,
         stake,
         weight,
         timeDiff,
-        accountBalance
+        walletBalance
     }
 }
 
@@ -158,13 +157,6 @@ router.get('/stats/:representation', asyncHandler(async (req, res) => {
             throw err;
         }
     }
-}), errorHandler);
-
-router.get('/config', asyncHandler(async (req, res) => {
-    const stakingManager = await stakingManagerInstance.get();
-    const result = await stakingManager.getConfig(_.toInteger(req.query.id));
-
-    res.json(result);
 }), errorHandler);
 
 router.get('/ticktock', asyncHandler(async (req, res) => {
