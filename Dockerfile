@@ -60,6 +60,9 @@ COPY --from=1 \
     /ton-labs-node-tools/target/release/keygen \
     /usr/bin/
 
+ADD https://raw.githubusercontent.com/tonlabs/rustnet.ton.dev/main/docker-compose/ton-node/configs/Elector.abi.json \
+    contracts/solidity/elector/
+
 COPY package.json package-lock.json ./
 RUN npm install
 
