@@ -14,15 +14,15 @@ module.exports = {
 
         funding: {
             type: <wallet|depool>,
-            
+
             // in case of 'wallet'
-            defaultStake: 10001 // in TONs
-            
+            defaultStake: 10001, // in TONs
+
             // in case of 'depool'
             addr: '0:2de8d63dc6169913cb734fa8effca16fa8c4fd2550834c1b9196d8a690f6e182',
             eventAnticipationTimeout: 300000 // in milliseconds
         },
-        
+
         // in case of 'modern'
         console: {
             client: {
@@ -33,7 +33,7 @@ module.exports = {
                 port: 3031,
                 publicKey: '<public key of the controlling server your node has generated for you>'
             }
-        }
+        },
 
         // in case of 'legacy'
         validatorEngine: {
@@ -44,7 +44,7 @@ module.exports = {
             host: '1.2.3.4',
             port: 3031
         }
-    }
+    },
 
     dbFiles: {
         config: '/data/freeton-staking-manager/config.db',
