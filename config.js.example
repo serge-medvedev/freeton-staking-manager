@@ -2,18 +2,18 @@ module.exports = {
     apiServer: 'https://net.ton.dev',
 
     wallet: {
-        addr: "-1:dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92",
+        addr: '-1:dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92',
         keys: {
-            public: "c89b32a11ec837298731ebbd2176f0cf96dab52f978d6cbe198fafeafaaa0fc5",
-            secret: "4a579ee59f540e325e2d0dad600f412c04cf80fae2ae25294a32e7412385787c"
+            public: 'c89b32a11ec837298731ebbd2176f0cf96dab52f978d6cbe198fafeafaaa0fc5',
+            secret: '4a579ee59f540e325e2d0dad600f412c04cf80fae2ae25294a32e7412385787c'
         }
     },
 
     policy: {
-        type: <modern|legacy>,
+        type: <'modern'|'legacy'>,
 
         funding: {
-            type: <wallet|depool>,
+            type: <'wallet'|'depool'>,
 
             // in case of 'wallet'
             defaultStake: 10001, // in TONs
@@ -37,7 +37,7 @@ module.exports = {
 
         // in case of 'legacy'
         validatorEngine: {
-            host: "1.2.3.4",
+            host: '1.2.3.4',
             port: 3030
         },
         liteServer: { // if you want to send transactions via lite-client
