@@ -1,5 +1,5 @@
 module.exports = {
-    apiServer: 'https://net.ton.dev',
+    apiServers: ['https://net.ton.dev'],
 
     wallet: {
         addr: '-1:dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92',
