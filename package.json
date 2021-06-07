@@ -6,8 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@tonclient/core": "~1.9.0",
-    "@tonclient/lib-node": "~1.9.0",
+    "@tonclient/core": "~1.16.0",
+    "@tonclient/lib-node": "~1.16.0",
     "better-queue": "~3.8.10",
     "cookie-parser": "~1.4.4",
     "cron": "~1.8.2",
@@ -18,7 +18,6 @@
     "jsonwebtoken": "~8.5.1",
     "lodash": "~4.17.21",
     "mem": "~6.1.0",
-    "moment": "~2.27.0",
     "morgan": "~1.9.1",
     "nedb": "~1.8.0",
     "tmp-promise": "~3.0.2"
