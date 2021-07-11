@@ -159,7 +159,7 @@ router.get('/stats/:representation', asyncHandler(async (req, res) => {
     }
 }), errorHandler);
 
-router.get('/ticktock', asyncHandler(async (req, res) => {
+router.put('/ticktock', asyncHandler(async (req, res) => {
     const stakingManager = await stakingManagerInstance.get();
 
     await stakingManager.sendTicktock();
