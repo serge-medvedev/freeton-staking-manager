@@ -6,13 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@tonclient/core": "~1.16.0",
-    "@tonclient/lib-node": "~1.16.0",
+    "@tonclient/core": "~1.19.0",
+    "@tonclient/lib-node": "~1.19.0",
     "better-queue": "~3.8.10",
     "cookie-parser": "~1.4.5",
     "cron": "~1.8.2",
     "debug": "~4.3.2",
-    "express": "~4.16.1",
+    "express": "~4.17.1",
     "express-async-handler": "~1.1.4",
     "express-unless": "~0.5.0",
     "jsonwebtoken": "~8.5.1",
