@@ -1,5 +1,9 @@
 module.exports = {
-    apiServers: ['https://net.ton.dev'],
+    tonosConfig: {
+        network: {
+            endpoints: ['https://net1.ton.dev', 'https://net5.ton.dev']
+        }
+    },
 
     wallet: {
         addr: '-1:dc98905c2ff4356331a7c4134956aa257600cf9c54e43f23f438470a3703df92',
