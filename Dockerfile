@@ -21,7 +21,7 @@ RUN git clone --recurse-submodules $TON_GITHUB_REPO ton \
 
 RUN git clone https://github.com/tonlabs/ton-labs-contracts.git
 
-FROM rust:1.50.0-buster
+FROM rust:1.51.0-buster
 
 ENV TON_LABS_NODE_TOOLS_GITHUB_REPO=https://github.com/tonlabs/ton-labs-node-tools.git
 ENV TON_LABS_NODE_TOOLS_GITHUB_COMMIT_ID=master
