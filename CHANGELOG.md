@@ -1,5 +1,12 @@
 # Summary of Changes
 
+## 3.0.0
+- Stake sending cannot be initiated if it's already in progress
+- Stake made via DePool is ensured to be either accepted or rejected
+- BREAKING(config): API Servers are now being specified as a part of a full-fledged TONOS config
+- BREAKING(api): `/ticktock` became `PUT` instead of `GET`
+- minor fixes and improvements
+
 ## 2.0.0
 - Rust Node/Net support
 - jwt-based authentication for admin
