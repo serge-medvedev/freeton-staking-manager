@@ -124,12 +124,12 @@ $ curl -s localhost:3000/elections/history | jq '.'
 ```
 ---
 
-### GET /ticktock
+### PUT /ticktock
 Invokes DePool's State Update method (ticktock)
 
 Example:
 ```console
-$ curl localhost:3000/ticktock
+$ curl -XPUT localhost:3000/ticktock
 ```
 ---
 
