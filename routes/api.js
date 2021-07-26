@@ -122,6 +122,12 @@ router.get('/elections/:target', asyncHandler(async (req, res) => {
     res.json(result);
 }), errorHandler);
 
+router.get('/validation/status', asyncHandler(async (req, res) => {
+    // TODO: add some meat
+
+    res.send();
+}), errorHandler);
+
 router.post('/validation/resume', asyncHandler(async (req, res) => {
     const stakingManager = await stakingManagerInstance.get();
 

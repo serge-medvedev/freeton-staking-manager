@@ -19,7 +19,9 @@ RUN git clone --recurse-submodules $TON_GITHUB_REPO ton \
     && cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DPORTABLE=ON \
     && ninja fift lite-client validator-engine-console generate-random-id
 
-RUN git clone https://github.com/tonlabs/ton-labs-contracts.git
+RUN git clone https://github.com/tonlabs/ton-labs-contracts.git \
+    && cd ton-labs-contracts \
+    && git checkout RUSTCUP_DEPOOL_--_DO_NOT_DEPLOY_ON_MAINNET
 
 FROM rust:1.51.0-buster
 
