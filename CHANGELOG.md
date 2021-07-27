@@ -1,5 +1,11 @@
 # Summary of Changes
 
+## 3.1.1
+- wrong 'create_at' value in DePool events lookup got fixed
+
+## 3.1.0
+- additional call to ticktock is introduced
+
 ## 3.0.0
 - Stake sending cannot be initiated if it's already in progress
 - Stake made via DePool is ensured to be either accepted or rejected
