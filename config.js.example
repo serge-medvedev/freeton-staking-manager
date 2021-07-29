@@ -58,7 +58,7 @@ module.exports = {
     periodicJobs: {
         enabled: true,
         acceptableTimeDiff: -10,
-        sendStake: '0,15,30,45 * * * *',
-        recoverStake: '5,20,35,50 * * * *'
+        sendStake: '*/15 * * * *',
+        recoverStake: '5/15 * * * *'
     }
 }
