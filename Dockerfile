@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 ENV TON_GITHUB_REPO=https://github.com/tonlabs/ton-1.git
-ENV TON_STABLE_GITHUB_COMMIT_ID=37d1935f504c1d2939155325f0cbf2c1f595dbd4
+ENV TON_STABLE_GITHUB_COMMIT_ID=658c9c65e1122d523aff054855f406a3f3b334d5
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -16,14 +16,12 @@ RUN git clone --recurse-submodules $TON_GITHUB_REPO ton \
     && cd ton \
     && git checkout $TON_STABLE_GITHUB_COMMIT_ID \
     && mkdir build && cd build \
-    && cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DPORTABLE=ON \
+    && cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DPORTABLE=ON -DTON_ARCH:STRING=x86-64 \
     && ninja fift lite-client validator-engine-console generate-random-id
 
-RUN git clone https://github.com/tonlabs/ton-labs-contracts.git \
-    && cd ton-labs-contracts \
-    && git checkout RUSTCUP_DEPOOL_--_DO_NOT_DEPLOY_ON_MAINNET
+RUN git clone https://github.com/tonlabs/ton-labs-contracts.git
 
-FROM rust:1.51.0-buster
+FROM rust:1.53.0-buster
 
 ENV TON_LABS_NODE_TOOLS_GITHUB_REPO=https://github.com/tonlabs/ton-labs-node-tools.git
 ENV TON_LABS_NODE_TOOLS_GITHUB_COMMIT_ID=master
