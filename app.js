@@ -89,17 +89,32 @@ if (! _.isEmpty(secret)) {
 
 app.use('/', apiRouter);
 
+async function isTimeDiffAcceptable(threshold) {
+    let result = true;
+
+    try {
+        const stakingManager = await stakingManagerInstance.get();
+        const timeDiff = await stakingManager.getTimeDiff();
+
+        result = (timeDiff > _.defaultTo(threshold, 0));
+    }
+    catch (err) {
+        debug('ERROR:', err.message);
+        debug('INFO: timeDiff getting failed - the check will be skipped');
+    }
+
+    return result;
+}
+
 function createJobFn(fnName) {
     return async () => {
         debug('INFO: BEGIN');
 
-        const stakingManager = await stakingManagerInstance.get();
-
         try {
-            const timeDiff = await stakingManager.getTimeDiff();
+            const stakingManager = await stakingManagerInstance.get();
             const { acceptableTimeDiff } = periodicJobs;
 
-            if (timeDiff > acceptableTimeDiff) {
+            if (await isTimeDiffAcceptable(acceptableTimeDiff)) {
                 await _.invoke(stakingManager, fnName);
             }
             else {
