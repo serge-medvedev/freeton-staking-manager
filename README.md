@@ -1,5 +1,4 @@
-![build](https://img.shields.io/docker/cloud/build/sergemedvedev/freeton-staking-manager.svg)
-[![version](https://img.shields.io/docker/v/sergemedvedev/freeton-staking-manager?sort=semver)](https://hub.docker.com/r/sergemedvedev/freeton-staking-manager/tags)
+# [REPO IS ARCHIVED] Maintained version lives [here](https://github.com/everscale-tools/staking-manager)
 
 # FreeTON Staking Manager
 
